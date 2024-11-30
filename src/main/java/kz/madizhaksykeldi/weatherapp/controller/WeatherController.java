@@ -45,6 +45,10 @@ public class WeatherController {
         return ResponseEntity.ok(weather);
     }
 
+    @Operation(summary = "Get weather forecast", description = "Returns weather forecast for specified number of days")
+    @ApiResponse(responseCode = "200", description = "Weather forecast has been retrieved",
+            content = @Content(schema = @Schema(implementation = ForecastDto.class)))
+    @ApiResponse(responseCode = "404", description = "City not found")
     @GetMapping("/forecast/{cityId}")
     public ResponseEntity<ForecastDto> getWeatherForecast(@PathVariable Long cityId,
                                                           @RequestParam int days) {
