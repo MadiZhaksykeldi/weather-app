@@ -1,5 +1,6 @@
 package kz.madizhaksykeldi.weatherapp.service;
 
+import kz.madizhaksykeldi.weatherapp.dto.ForecastDto;
 import kz.madizhaksykeldi.weatherapp.dto.WeatherDto;
 import kz.madizhaksykeldi.weatherapp.exception.ApiException;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,15 @@ public class WeatherService {
             return restTemplate.getForObject(url, WeatherDto.class);
         } catch (HttpClientErrorException e) {
             throw new ApiException("Error fetching weather data: " + e.getMessage());
+        }
+    }
+
+    public ForecastDto getWeatherForecast(String cityName, int days) {
+        String url = String.format("https://api.weatherapi.com/v1/forecast.json?key=%s&q=%s&days=%d", apiKey, cityName, days);
+        try {
+            return restTemplate.getForObject(url, ForecastDto.class);
+        } catch (HttpClientErrorException e) {
+            throw new ApiException("Error fetching weather forecast: " + e.getMessage());
         }
     }
 
